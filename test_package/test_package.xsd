@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	targetNamespace="urn:conan_test"
+	xmlns:ct="urn:conan_test"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified"
+	>
+
+	<xs:simpleType name="dimensions">
+		<xs:restriction base="xs:positiveInteger">
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="shape">
+		<xs:attribute name="id" type="xs:ID" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="shape-2d">
+		<xs:complexContent>
+			<xs:extension base="ct:shape" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="shape-3d">
+		<xs:complexContent>
+			<xs:extension base="ct:shape" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="square">
+		<xs:complexContent>
+			<xs:extension base="ct:shape-2d">
+				<xs:attribute name="side-length" type="xs:double" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="circle">
+		<xs:complexContent>
+			<xs:extension base="ct:shape-2d">
+				<xs:attribute name="radius" type="xs:double" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="cube">
+		<xs:complexContent>
+			<xs:extension base="ct:shape-3d">
+				<xs:attribute name="side-length" type="xs:double" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="sphere">
+		<xs:complexContent>
+			<xs:extension base="ct:shape-3d">
+				<xs:attribute name="radius" type="xs:double" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="shapes">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="circle" type="ct:circle" />
+				<xs:element name="square" type="ct:square" />
+				<xs:element name="sphere" type="ct:sphere" />
+				<xs:element name="cube" type="ct:cube" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="shapes" type="ct:shapes" />
+
+</xs:schema>

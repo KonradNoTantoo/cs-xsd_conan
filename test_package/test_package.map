@@ -1,0 +1,15 @@
+namespace urn:conan_test
+{
+  include "shapes.hxx";
+
+  dimension "ct::Dimension";
+  shape "ct::shape";
+  shape-(.)d "ct::nshape<ct::_$1D>";
+
+  circle "ct::circle";
+  square "ct::square";
+  sphere "ct::sphere";
+  cube "ct::cube";
+
+  shapes "ct::shapes";
+}
