@@ -41,11 +41,21 @@ class CSXsdConan(ConanFile):
         tools.get(dl_path)
         os.rename(extracted_dir, self._source_subfolder)
 
+        # rename executable to cs-xsd to avoid collision with
+        # MS Xml Schemas/DataTypes support utility who is also
+        # named xsd.exe
+        bin_name = "xsd.exe" if self.settings.os == "Windows" else "xsd"
+        bin_path = os.path.join(self._source_subfolder, "bin")
+        old_executable = os.path.join(bin_path, bin_name)
+        new_executable = os.path.join(bin_path, "cs-{}".format(bin_name))
+        self.output.info("Renaming {} to {}".format(old_executable, new_executable))
+        os.rename(old_executable, new_executable)
+
 
     def package(self):
         libxsd_path = os.path.join(self._source_subfolder, "libxsd")
         self.copy("*.?xx", dst="include", src=libxsd_path, keep_path=True)
-        self.copy("bin/xsd*", dst="bin", src=self._source_subfolder, keep_path=False)
+        self.copy("bin/cs-xsd*", dst="bin", src=self._source_subfolder, keep_path=False)
 
 
     def package_info(self):
