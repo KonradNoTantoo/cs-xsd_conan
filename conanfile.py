@@ -11,9 +11,9 @@ class CSXsdConan(ConanFile):
     description = "CodeSynthesis XSD is an open-source, cross-platform W3C XML Schema to C++ data binding compiler."
     topics = ("XML", "XSD", "data binding")
     settings = "os", "arch"
-    options = { "nename_executable": [True, False] }
-    default_options = { "nename_executable": True }
-    requires = "xerces-c/3.2.2@bincrafters/stable"
+    options = { "rename_executable": [True, False] }
+    default_options = { "rename_executable": True }
+    requires = "xerces-c/[>=3.0.0]"
     no_copy_source = True
     _source_subfolder = "source_subfolder"
 
@@ -43,7 +43,7 @@ class CSXsdConan(ConanFile):
         tools.get(dl_path)
         os.rename(extracted_dir, self._source_subfolder)
 
-        if self.options.nename_executable:
+        if self.options.rename_executable:
             # rename executable to cs-xsd to avoid collision with
             # MS Xml Schemas/DataTypes support utility who is also
             # named xsd.exe
@@ -58,7 +58,7 @@ class CSXsdConan(ConanFile):
     def package(self):
         libxsd_path = os.path.join(self._source_subfolder, "libxsd")
         self.copy("*.?xx", dst="include", src=libxsd_path, keep_path=True)
-        if self.options.nename_executable:
+        if self.options.rename_executable:
             self.copy("bin/cs-xsd*", dst="bin", src=self._source_subfolder, keep_path=False)
         else:
             self.copy("bin/xsd*", dst="bin", src=self._source_subfolder, keep_path=False)
